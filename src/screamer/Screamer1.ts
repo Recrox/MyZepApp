@@ -3,21 +3,51 @@ import { showScreamer } from "./showScreamer";
 
 export const TRIGGER_SCREAMER = { x: 20, y: 25, key: "Trigger_Screamer" };
 export const TRIGGER_VOITURE = { x: 10, y: 5, key: "Trigger_Voiture" };
-// Charge le sprite du screamer
+
+// Charge les sprites
 const screamerSprite: ScriptDynamicResource = ScriptApp.loadSpritesheet("screamer.png");
+const voitureSprite: ScriptDynamicResource = ScriptApp.loadSpritesheet("voiture.png");
 
 export function Start1() {
-  // Crée les objets "trigger" invisibles avec une clé personnalisée
-  ScriptMap.putObjectWithKey(TRIGGER_SCREAMER.x, TRIGGER_SCREAMER.y, null, { key: TRIGGER_SCREAMER.key });
-  ScriptMap.putObjectWithKey(TRIGGER_VOITURE.x, TRIGGER_VOITURE.y, null, { key: TRIGGER_VOITURE.key });
+  // ---- Trigger automatique (invisible) ----
+  ScriptMap.putObjectWithKey(
+    TRIGGER_SCREAMER.x,
+    TRIGGER_SCREAMER.y,
+    null,
+    { key: TRIGGER_SCREAMER.key }
+  );
 
-  // Quand un joueur touche un objet trigger
-  ScriptApp.onTriggerObject.Add((player: ScriptPlayer, object: any) => {
-    if (!object || !object.key) return;
-    if (object.key === TRIGGER_SCREAMER.key || object.key === TRIGGER_VOITURE.key) {
-      showScreamer(player);
+  // ---- Objet interactif (visible, appuyable) ----
+  ScriptMap.putObjectWithKey(
+    TRIGGER_VOITURE.x,
+    TRIGGER_VOITURE.y,
+    voitureSprite,
+    { key: TRIGGER_VOITURE.key }
+  );
+
+  // Quand un joueur marche sur un trigger auto
+  ScriptApp.onTriggerObject.Add((
+    player: ScriptPlayer,
+    layerId: number,
+    x: number,
+    y: number,
+    key: string
+  ) => {
+    if (key === TRIGGER_SCREAMER.key && x === TRIGGER_SCREAMER.x && y === TRIGGER_SCREAMER.y) {
+      showScreamer(player); // Auto
     }
   });
+
+  // // Quand un joueur interagit avec un objet visible (E par défaut)
+  // ScriptApp.onTriggerObject.Add((
+  //   player: ScriptPlayer,
+  //   layerId: number,
+  //   x: number,
+  //   y: number,
+  //   key: string
+  // ) => {
+  //   if (key === TRIGGER_VOITURE.key && x === TRIGGER_VOITURE.x && y === TRIGGER_VOITURE.y) {
+  //     showScreamer(player); // Appuyable
+  //   }
+  // });
 }
-
-
