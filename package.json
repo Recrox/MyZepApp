@@ -6,7 +6,8 @@
     "pack": "zep-script pack",
     "archive": "zep-script archive",
     "deploy": "zep-script publish",
-    "build:archive": "npm run build && npm run archive"
+    "build:archive": "npm run build && npm run archive",
+    "CI_CD": "npm run build && npm run archive && npm run deploy"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.6",
