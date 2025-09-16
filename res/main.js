@@ -4,7 +4,6 @@
 ;// ./src/screamer/showScreamer.ts
 
 function showScreamer(player) {
-  console.log("Screamer !!!");
   App.showCenterLabel("😱 SCREAMER !!!", 2000);
   App.playSound("scream.mp3");
   Map.playObjectAnimationWithKey(TRIGGER_SCREAMER.key, "scary_animation", 1);
@@ -41,11 +40,8 @@ function Start1() {
 
 function Start2() {
   App.onTriggerObject.Add((player, object) => {
-    console.log("onTriggerObject", object);
     if (!object) return;
-    console.log("Trigger détecté", object);
     if (player.tileX === TRIGGER_SCREAMER.x && player.tileY === TRIGGER_SCREAMER.y || player.tileX === TRIGGER_VOITURE.x && player.tileY === TRIGGER_VOITURE.y) {
-      console.log("Joueur sur une tuile trigger");
       showScreamer(player);
     }
   });

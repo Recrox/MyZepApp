@@ -3,8 +3,6 @@ import { TRIGGER_SCREAMER } from "./Start1";
 
 // Fonction utilitaire Screamer
 export function showScreamer(player: ScriptPlayer) {
-  console.log("Screamer !!!");
-
   ScriptApp.showCenterLabel("😱 SCREAMER !!!", 2000);
   ScriptApp.playSound("scream.mp3");
   // Optionnel : animation sur sprite
