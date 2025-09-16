@@ -3,7 +3,6 @@
  */
 
 import "zep-script";
-import { add } from "./src/add";
 import { StartGame } from "./src/start-game";
 
 let zepLogo = ScriptApp.loadSpritesheet("zep_logo.png");
@@ -12,7 +11,7 @@ let zepLogo = ScriptApp.loadSpritesheet("zep_logo.png");
 let screamer = ScriptApp.loadSpritesheet("screamer.png");
 
 ScriptApp.onJoinPlayer.Add(function (player) {
-  ScriptApp.showCenterLabel(`Bienvenue ${player.name} Hello World ${add(1, 6)}`);
+  ScriptApp.showCenterLabel(`Bienvenue ${player.name} Hello World `);
 });
 
 ScriptApp.onStart.Add(function () {
@@ -26,7 +25,7 @@ ScriptApp.onDestroy.Add(function () {
 
 ScriptApp.onJoinPlayer.Add(function (player) {
    // Affiche un message
-  ScriptApp.showCenterLabel(`Bienvenue ${player.name} Hello World ${add(1, 6)}`);
+  ScriptApp.showCenterLabel(`Bienvenue ${player.name} Hello World `);
 });
 
 ScriptApp.onStart.Add(function () {
