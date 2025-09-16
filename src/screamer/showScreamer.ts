@@ -1,5 +1,5 @@
 import { ScriptPlayer } from "zep-script";
-import { TRIGGER_SCREAMER } from "./Start1";
+import { TRIGGER_SCREAMER } from "./Screamer1";
 
 // Fonction utilitaire Screamer
 export function showScreamer(player: ScriptPlayer) {
@@ -9,4 +9,6 @@ export function showScreamer(player: ScriptPlayer) {
   ScriptMap.playObjectAnimationWithKey(TRIGGER_SCREAMER.key, "scary_animation", 1);
   // ScriptApp.showImagePopup(player, "screamer.png", { width: 800, height: 600 }); // adapte les dimensions
   // const screamerObj = ScriptMap.putObjectWithKey(x, y, screamerSprite, { key: `screamer_${player.name}` });
+
+  
 }

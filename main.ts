@@ -28,10 +28,6 @@ ScriptApp.onJoinPlayer.Add(function (player) {
   ScriptApp.showCenterLabel(`Bienvenue ${player.name} Hello World `);
 });
 
-ScriptApp.onStart.Add(function () {
-  ScriptMap.putObject(0, 0, zepLogo, { overlap: true });
-});
-
 ScriptApp.onDestroy.Add(function () {
   ScriptMap.clearAllObjects();
 });

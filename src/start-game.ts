@@ -1,10 +1,10 @@
 import "zep-script";
-import { Start1 } from "./screamer/Start1";
-import { Start2 } from "./screamer/Start2";
+import { Start1 as Screamer1 } from "./screamer/Screamer1";
+import { Start2 as Screamer2 } from "./screamer/Screamer2";
 import { light } from "./light/light";
 
 export function StartGame() {
-  Start1();
-  Start2();
-  light();
+  Screamer1();
+  Screamer2();
+  // light();
 }

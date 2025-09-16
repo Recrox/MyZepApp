@@ -1,6 +1,6 @@
 import { ScriptPlayer } from "zep-script";
 import { showScreamer } from "./showScreamer";
-import { TRIGGER_SCREAMER, TRIGGER_VOITURE } from "./Start1";
+import { TRIGGER_SCREAMER, TRIGGER_VOITURE } from "./Screamer1";
 
 export function Start2() {
   ScriptApp.onTriggerObject.Add((player: ScriptPlayer, object: any) => {

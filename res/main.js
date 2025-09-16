@@ -22,10 +22,10 @@ const TRIGGER_VOITURE = {
 };
 const screamerSprite = App.loadSpritesheet("screamer.png");
 function Start1() {
-  Map.putObjectWithKey(TRIGGER_SCREAMER.x, TRIGGER_SCREAMER.y, null, {
+  Map.putObjectWithKey(TRIGGER_SCREAMER.x, TRIGGER_SCREAMER.y, screamerSprite, {
     key: TRIGGER_SCREAMER.key
   });
-  Map.putObjectWithKey(TRIGGER_VOITURE.x, TRIGGER_VOITURE.y, null, {
+  Map.putObjectWithKey(TRIGGER_VOITURE.x, TRIGGER_VOITURE.y, screamerSprite, {
     key: TRIGGER_VOITURE.key
   });
   App.onTriggerObject.Add((player, object) => {
@@ -35,34 +35,10 @@ function Start1() {
     }
   });
 }
-;// ./src/screamer/Start2.ts
-
-
-function Start2() {
-  App.onTriggerObject.Add((player, object) => {
-    if (!object) return;
-    if (player.tileX === TRIGGER_SCREAMER.x && player.tileY === TRIGGER_SCREAMER.y || player.tileX === TRIGGER_VOITURE.x && player.tileY === TRIGGER_VOITURE.y) {
-      showScreamer(player);
-    }
-  });
-}
-;// ./src/light/light.ts
-const lightSprite = App.loadSpritesheet("light.png");
-function light() {
-  App.onJoinPlayer.Add(player => {
-    Map.putObjectWithKey(player.tileX, player.tileY, lightSprite, {
-      key: `light_${player.name}`
-    });
-  });
-}
 ;// ./src/start-game.ts
-
-
 
 function StartGame() {
   Start1();
-  Start2();
-  light();
 }
 ;// ./main.ts
 
@@ -82,11 +58,6 @@ App.onDestroy.Add(function () {
 });
 App.onJoinPlayer.Add(function (player) {
   App.showCenterLabel(`Bienvenue ${player.name} Hello World `);
-});
-App.onStart.Add(function () {
-  Map.putObject(0, 0, zepLogo, {
-    overlap: true
-  });
 });
 App.onDestroy.Add(function () {
   Map.clearAllObjects();
