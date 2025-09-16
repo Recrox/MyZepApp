@@ -4,7 +4,7 @@ import { showScreamer } from "./showScreamer";
 export const TRIGGER_SCREAMER = { x: 20, y: 25, key: "Trigger_Screamer" };
 export const TRIGGER_VOITURE = { x: 10, y: 5, key: "Trigger_Voiture" };
 // Charge le sprite du screamer
-const screamerSprite: ScriptDynamicResource = ScriptApp.loadSpritesheet("screamer.png");
+const screamerSprite: ScriptDynamicResource = ScriptApp.loadSpritesheet("../assets/screamer.png");
 
 export function Start1() {
   // Crée les objets "trigger" invisibles avec une clé personnalisée

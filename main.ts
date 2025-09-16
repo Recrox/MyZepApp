@@ -5,7 +5,7 @@
 import "zep-script";
 import { StartGame } from "./src/start-game";
 
-let zepLogo = ScriptApp.loadSpritesheet("zep_logo.png");
+let zepLogo = ScriptApp.loadSpritesheet("./assets/img/zep_logo.png");
 
 // Charge une image pour le screamer (mets ton fichier screamer.png)
 let screamer = ScriptApp.loadSpritesheet("screamer.png");

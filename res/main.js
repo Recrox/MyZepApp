@@ -8,7 +8,7 @@ function showScreamer(player) {
   App.playSound("scream.mp3");
   Map.playObjectAnimationWithKey(TRIGGER_SCREAMER.key, "scary_animation", 1);
 }
-;// ./src/screamer/Start1.ts
+;// ./src/screamer/Screamer1.ts
 
 const TRIGGER_SCREAMER = {
   x: 20,
@@ -20,12 +20,12 @@ const TRIGGER_VOITURE = {
   y: 5,
   key: "Trigger_Voiture"
 };
-const screamerSprite = App.loadSpritesheet("screamer.png");
+const screamerSprite = App.loadSpritesheet("../assets/screamer.png");
 function Start1() {
-  Map.putObjectWithKey(TRIGGER_SCREAMER.x, TRIGGER_SCREAMER.y, screamerSprite, {
+  Map.putObjectWithKey(TRIGGER_SCREAMER.x, TRIGGER_SCREAMER.y, null, {
     key: TRIGGER_SCREAMER.key
   });
-  Map.putObjectWithKey(TRIGGER_VOITURE.x, TRIGGER_VOITURE.y, screamerSprite, {
+  Map.putObjectWithKey(TRIGGER_VOITURE.x, TRIGGER_VOITURE.y, null, {
     key: TRIGGER_VOITURE.key
   });
   App.onTriggerObject.Add((player, object) => {
@@ -35,14 +35,27 @@ function Start1() {
     }
   });
 }
+;// ./src/screamer/Screamer2.ts
+
+
+function Start2() {
+  App.onTriggerObject.Add((player, object) => {
+    if (!object) return;
+    if (player.tileX === TRIGGER_SCREAMER.x && player.tileY === TRIGGER_SCREAMER.y || player.tileX === TRIGGER_VOITURE.x && player.tileY === TRIGGER_VOITURE.y) {
+      showScreamer(player);
+    }
+  });
+}
 ;// ./src/start-game.ts
+
 
 function StartGame() {
   Start1();
+  Start2();
 }
 ;// ./main.ts
 
-let zepLogo = App.loadSpritesheet("zep_logo.png");
+let zepLogo = App.loadSpritesheet("./assets/img/zep_logo.png");
 let screamer = App.loadSpritesheet("screamer.png");
 App.onJoinPlayer.Add(function (player) {
   App.showCenterLabel(`Bienvenue ${player.name} Hello World `);
