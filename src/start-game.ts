@@ -5,6 +5,6 @@ import { light } from "./light/light";
 
 export function StartGame() {
   Screamer1();
-  Screamer2();
+  // Screamer2();
   // light();
 }

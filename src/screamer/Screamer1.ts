@@ -22,41 +22,19 @@ export function Start1() {
 
   // ---- Objet interactif (visible, appuyable) ----
   ScriptMap.putObjectWithKey(
-    TRIGGER_VOITURE.x,
-    TRIGGER_VOITURE.y,
-    voitureSprite,
-    { key: TRIGGER_VOITURE.key }
+    TRIGGER_SCREAMER.x,
+    TRIGGER_SCREAMER.y,
+    screamerSprite,
+    { key: TRIGGER_SCREAMER.key }
   );
-
-  // Quand un joueur marche sur un trigger auto
-  ScriptApp.onTriggerObject.Add((
-    player: ScriptPlayer,
-    layerId: number,
-    x: number,
-    y: number,
-    key: string
-  ) => {
-    // ScriptApp.sayToAll(`entré dans onTriggerObject ${layerId} ${x} ${y} ${key}`, 0xFFFFFF);
-    if (key === TRIGGER_SCREAMER.key 
-      && x === TRIGGER_SCREAMER.x 
-      && y === TRIGGER_SCREAMER.y) {
-      ScriptApp.sayToAll(`Key = ${key}`, 0xFFFFFF);
-      showScreamer(player); // Auto
-    }
-  });
 
   ScriptApp.onObjectTouched.Add(function (sender, x, y, tileID, obj:MapDataTileObject) {
     if (obj !== null) {
         if (obj.type == ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS) {
-            ScriptApp.sayToAll(`Number = ${obj.text}, Value = ${obj.param1}`, 0xFFFFFF);
-            
-            // Exemple d’utilisation
-            // Exemple : récupérer VOITURE1 de la salle 1
-            const voiture1Salle1 = OBJECTS[OBJECT_KEYS.SALLE1.VOITURE1];
 
-            Object.keys(voiture1Salle1).forEach(k => {
-                ScriptApp.sayToAll(`${k} = ${obj[k]}`, 0xFFFFFF);
-            });
+            // Object.keys(voiture1Salle1).forEach(k => {
+            //     ScriptApp.sayToAll(`${k} = ${obj[k]}`, 0xFFFFFF);
+            // });
 
             showScreamer(sender);
         }
@@ -65,6 +43,16 @@ export function Start1() {
     }
   });
 
-  
+  const voiture1Salle1 = OBJECTS[OBJECT_KEYS.SALLE1.VOITURE1];
+
+  if (voiture1Salle1) {
+    ScriptApp.onObjectTouched.Add((sender, x, y, tileID, obj) => {
+      // Compare sur param1 ou key
+      if (obj.param1 === voiture1Salle1.param1) {
+        showScreamer(sender);
+        ScriptApp.sayToAll("Tu as touché VOITURE1 de la salle 1 !", 0xFFFFFF);
+      }
+    });
+  }
 
 }
