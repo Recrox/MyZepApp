@@ -23,10 +23,6 @@ ScriptApp.onDestroy.Add(function () {
   ScriptMap.clearAllObjects();
 });
 
-ScriptApp.onDestroy.Add(function () {
-  ScriptMap.clearAllObjects();
-});
-
 // // Activates function when a player enters
 // ScriptApp.onJoinPlayer.Add(function (player) {
 // 	player.tag = {

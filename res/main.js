@@ -9,7 +9,45 @@ function showScreamer(player) {
   App.playSound(SCREAM_SOUND);
   Map.playObjectAnimationWithKey(TRIGGER_SCREAMER.key, "scary_animation", 1);
 }
+;// ./src/utils.ts
+function getObjectByParam1(value) {
+  const objects = Map.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS);
+  for (const obj of objects) {
+    if (obj.param1 === value) {
+      App.sayToAll(`Objet trouvé → text=${obj.text}, param1=${obj.param1}, type=${obj.type}, subtype=${obj.subType}`, 0xFFFFFF);
+      return obj;
+    }
+  }
+  return null;
+}
+function getObjectsByParam1(value) {
+  const objects = Map.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS);
+  return objects.filter(obj => obj.param1 === value);
+}
+;// ./src/objects.ts
+
+const OBJECT_KEYS = {
+  SALLE1: {
+    VOITURE1: "SALLE1_VOITURE1",
+    VOITURE2: "SALLE1_VOITURE2",
+    PORTE: "SALLE1_PORTE"
+  },
+  SALLE2: {
+    VOITURE1: "SALLE2_VOITURE1",
+    VOITURE2: "SALLE2_VOITURE2",
+    PORTE: "SALLE2_PORTE"
+  }
+};
+const OBJECTS = {
+  [OBJECT_KEYS.SALLE1.VOITURE1]: getObjectByParam1(OBJECT_KEYS.SALLE1.VOITURE1),
+  [OBJECT_KEYS.SALLE1.VOITURE2]: getObjectByParam1(OBJECT_KEYS.SALLE1.VOITURE2),
+  [OBJECT_KEYS.SALLE2.VOITURE1]: getObjectByParam1(OBJECT_KEYS.SALLE2.VOITURE1),
+  [OBJECT_KEYS.SALLE2.VOITURE2]: getObjectByParam1(OBJECT_KEYS.SALLE2.VOITURE2),
+  [OBJECT_KEYS.SALLE1.PORTE]: getObjectByParam1(OBJECT_KEYS.SALLE1.PORTE),
+  [OBJECT_KEYS.SALLE2.PORTE]: getObjectByParam1(OBJECT_KEYS.SALLE2.PORTE)
+};
 ;// ./src/screamer/Screamer1.ts
+
 
 const TRIGGER_SCREAMER = {
   x: 20,
@@ -32,6 +70,7 @@ function Start1() {
   });
   App.onTriggerObject.Add((player, layerId, x, y, key) => {
     if (key === TRIGGER_SCREAMER.key && x === TRIGGER_SCREAMER.x && y === TRIGGER_SCREAMER.y) {
+      App.sayToAll(`Key = ${key}`, 0xFFFFFF);
       showScreamer(player);
     }
   });
@@ -39,6 +78,10 @@ function Start1() {
     if (obj !== null) {
       if (obj.type == ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS) {
         App.sayToAll(`Number = ${obj.text}, Value = ${obj.param1}`, 0xFFFFFF);
+        const voiture1Salle1 = OBJECTS[OBJECT_KEYS.SALLE1.VOITURE1];
+        Object.keys(voiture1Salle1).forEach(k => {
+          App.sayToAll(`${k} = ${obj[k]}`, 0xFFFFFF);
+        });
         showScreamer(sender);
       }
     } else {
@@ -78,9 +121,6 @@ App.onStart.Add(function () {
     overlap: true
   });
   StartGame();
-});
-App.onDestroy.Add(function () {
-  Map.clearAllObjects();
 });
 App.onDestroy.Add(function () {
   Map.clearAllObjects();
