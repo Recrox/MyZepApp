@@ -4,9 +4,10 @@
 ;// ./src/screamer/showScreamer.ts
 
 const SCREAM_SOUND = "assets/sounds/scream.mp3";
+const COW_SOUND = "assets/sounds/vache.mp3";
 function showScreamer(player) {
   App.showCenterLabel("😱 SCREAMER !!!", 2000);
-  App.playSound(SCREAM_SOUND);
+  App.playSound(COW_SOUND);
   Map.playObjectAnimationWithKey(TRIGGER_SCREAMER.key, "scary_animation", 1);
 }
 ;// ./src/utils.ts

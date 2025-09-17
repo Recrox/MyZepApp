@@ -5,7 +5,7 @@ export function getObjectByParam1(value: string): MapDataTileObject | null  {
     const objects = ScriptMap.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS)  as unknown as MapDataTileObject[];
     for (const obj of objects) {
         if (obj.param1 === value) {
-            ScriptApp.sayToAll(`Objet trouvé → text=${obj.text}, param1=${obj.param1}, type=${obj.type}, subtype=${obj.subType}`, 0xFFFFFF);
+            // ScriptApp.sayToAll(`Objet trouvé → text=${obj.text}, param1=${obj.param1}, type=${obj.type}, subtype=${obj.subType}`, 0xFFFFFF);
             return obj;
         }
     }
