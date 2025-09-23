@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Darkness Overlay</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    html, body, canvas {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="overlay"></canvas>
+  <!-- <script type="module">
+    import { DarknessOverlay } from "./darkness.js";
+
+    // initialise le halo
+    new DarknessOverlay("overlay", 150);
+  </script> -->
+  <script type="module">
+  // @ts-ignore
+  new window.DarknessOverlay("overlay", 150);
+</script>
+  <script src="main.js"></script>
+</body>
+</html>
