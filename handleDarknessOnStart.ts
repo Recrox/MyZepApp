@@ -1,8 +1,8 @@
-import { toggleDarkness } from "../darkness/cameraSombre";
-import { MAPS } from "./MAPS";
-import { salle3 as salle3 } from "./salle3";
+import { addDarkness } from "./src/darkness/cameraSombre";
+import { MAPS } from "./src/salles/MAPS";
 
-export function HandleSalle(): void {
+
+export function handleDarknessOnStart() {
   switch (ScriptMap.name) {
     case MAPS.SALLE1:
       break;
@@ -11,9 +11,8 @@ export function HandleSalle(): void {
       break;
 
     case MAPS.SALLE3:
-      salle3();
+      addDarkness(1.0);
       break;
-
     case MAPS.SALLE4:
       break;
 
