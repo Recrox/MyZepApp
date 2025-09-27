@@ -359,6 +359,7 @@ function handleDarknessOnStart() {
 
 
 App.onJoinPlayer.Add(function (player) {
+  App.sayToAll(`onJoinPlayer`);
   if (Map.name === MAPS.SALLE1) {
     App.showCenterLabel(`Bienvenue ${player.name} Pour ta quête d'Halloween 💀💀💀`);
   } else {
@@ -367,6 +368,7 @@ App.onJoinPlayer.Add(function (player) {
   handleDarknessOnStart();
 });
 App.onStart.Add(function () {
+  App.sayToAll(`onStart`);
   StartGame();
 });
 App.onDestroy.Add(function () {

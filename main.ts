@@ -12,17 +12,17 @@ import { handleDarknessOnStart } from "./handleDarknessOnStart";
 
 
 ScriptApp.onJoinPlayer.Add(function (player) {
-  ScriptApp.sayToAll(`onJoinPlayer`);
+  // ScriptApp.sayToAll(`onJoinPlayer`);
   if (ScriptMap.name === MAPS.SALLE1) {
     ScriptApp.showCenterLabel(`Bienvenue ${player.name} Pour ta quête d'Halloween 💀💀💀`);
   } else {
     ScriptApp.showCenterLabel(`Tu es dans la salle ${ScriptMap.name}`);
   }
-  handleDarknessOnStart();
+  // handleDarknessOnStart();
 });
 
 ScriptApp.onStart.Add(function () {
-  ScriptApp.sayToAll(`onStart`);
+  // ScriptApp.sayToAll(`onStart`);
   // ScriptMap.putObject(0, 0, zepLogo, { overlap: true });
   StartGame();
 });
