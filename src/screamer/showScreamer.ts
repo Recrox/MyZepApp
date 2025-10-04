@@ -16,5 +16,8 @@ export function showScreamer(player: ScriptPlayer, sound : SoundAsset = null, im
   // ScriptApp.showImagePopup(player, "screamer.png", { width: 800, height: 600 }); // adapte les dimensions
   // const screamerObj = ScriptMap.putObjectWithKey(x, y, screamerSprite, { key: `screamer_${player.name}` });
 
+  // DOC Insérer html widget:
+  // https://docs.zep.us/zep-script/zep-script-api/scriptwidget/field
+
 }
 
