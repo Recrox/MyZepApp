@@ -9,6 +9,7 @@ import "zep-script";
 import { StartGame } from "./src/start-game";
 import { MAPS } from "./src/salles/MAPS";
 import { handleDarknessOnStart } from "./handleDarknessOnStart";
+import { showScreamerCopilot } from "./src/screamer/copilot/showsceamer-copilot";
 
 // The first event called when running the app (before the user enters)
 // Normal and Sidebar apps are called when the map is executed after applying the script
@@ -18,13 +19,14 @@ ScriptApp.onInit.Add(function(){
 
 // All players enter the app through this event [ Enter ]
 // Calls whenever a player enters afterward [ Events ]
-ScriptApp.onJoinPlayer.Add(function (player) {
+ScriptApp.onJoinPlayer.Add( function (player) {
   // ScriptApp.sayToAll(`onJoinPlayer`);
   if (ScriptMap.name === MAPS.SALLE1) {
     ScriptApp.showCenterLabel(`Bienvenue ${player.name} Pour ta quête d'Halloween 💀💀💀`);
   } else {
     ScriptApp.showCenterLabel(`Tu es dans la salle ${ScriptMap.name}`);
   }
+  // showScreamerCopilot(player);
   // handleDarknessOnStart();
 });
 
@@ -48,4 +50,5 @@ ScriptApp.onLeavePlayer.Add(function(player){
 ScriptApp.onDestroy.Add(function () {
   ScriptMap.clearAllObjects();
 });
+
 

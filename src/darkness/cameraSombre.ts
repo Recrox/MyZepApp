@@ -13,7 +13,9 @@ export function registerVignetteToggle(): void {
   });
 }
 
-export function toggleDarkness(cameraEffectParam : number = 100): void {
+export function toggleDarkness(cameraEffectParam : number = 200): void {
+  // ScriptApp.sayToAll(`Toggle darkness, isDark=${isDark()}`);
+  // ScriptApp.sayToAll(`Current cameraEffect: ${ScriptApp.cameraEffect}`);
     if (!isDark()) {
       addDarkness(cameraEffectParam); // Définit la portée de l'effet vignette à 500
     } else {
@@ -22,7 +24,7 @@ export function toggleDarkness(cameraEffectParam : number = 100): void {
 }
 
 export function isDark() {
-  return ScriptApp.cameraEffect === 0;
+  return ScriptApp.cameraEffect === 1;
 }
 
 export function addDarkness(cameraEffectParam : number): void {

@@ -24,37 +24,6 @@ const MAPS = {
   SALLE19: "Salle19",
   SALLE20: "Salle20"
 };
-;// ./src/darkness/cameraSombre.ts
-function registerVignetteToggle() {
-  App.addOnKeyDown(81, player => {
-    if (App.cameraEffect === 0) {
-      App.cameraEffect = 1;
-      App.cameraEffectParam1 = 500;
-    } else if (App.cameraEffect === 1) {
-      App.cameraEffect = 0;
-    }
-    App.sendUpdated();
-  });
-}
-function toggleDarkness(cameraEffectParam = 100) {
-  if (!isDark()) {
-    addDarkness(cameraEffectParam);
-  } else {
-    removeDarkness();
-  }
-}
-function isDark() {
-  return App.cameraEffect === 0;
-}
-function addDarkness(cameraEffectParam) {
-  App.cameraEffect = 1;
-  App.cameraEffectParam1 = cameraEffectParam;
-  App.sendUpdated();
-}
-function removeDarkness() {
-  App.cameraEffect = 0;
-  App.sendUpdated();
-}
 ;// ./src/utils.ts
 function getObjectByParam1(value) {
   const objects = Map.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS);
@@ -235,16 +204,204 @@ const OBJECTS = {
   [OBJECT_KEYS.SALLE19.PORTE]: getObjectByParam1(OBJECT_KEYS.SALLE19.PORTE),
   [OBJECT_KEYS.SALLE20.PORTE]: getObjectByParam1(OBJECT_KEYS.SALLE20.PORTE)
 };
+;// ./src/screamer/copilot/showsceamer-copilot.ts
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+const SCREAM_SOUND = "assets/sounds/scream.mp3";
+const DEFAULT_IMAGE = "assets/images/screamer1.png";
+const DEFAULT_OPTIONS = {
+  sound: SCREAM_SOUND,
+  img: DEFAULT_IMAGE,
+  volume: 1.0,
+  delayMs: 400,
+  randomizeDelay: true,
+  screamDurationMs: 3000,
+  cooldownMs: 30000,
+  enableShake: true,
+  safeMode: false,
+  onSpawnMapObject: () => {}
+};
+const lastScreamAt = new Map();
+const optOut = new Set();
+function setPlayerScreamerOptOut(player, exclude) {
+  if (!player || !player.name) return;
+  if (exclude) optOut.add(player.name);else optOut.delete(player.name);
+}
+function isPlayerScreamerOptOut(player) {
+  return player && player.name ? optOut.has(player.name) : false;
+}
+function showCenterLabelToPlayer(player, text, durationMs) {
+  const s = ScriptApp;
+  if (player) {
+    if (typeof s.showCenterLabelForPlayer === "function") {
+      return s.showCenterLabelForPlayer(player, text, durationMs);
+    }
+    if (typeof s.showCenterLabelToPlayer === "function") {
+      return s.showCenterLabelToPlayer(player, text, durationMs);
+    }
+    if (typeof s.showLabel === "function" && typeof s.showLabelForPlayer === "function") {
+      return s.showLabelForPlayer(player, text, durationMs);
+    }
+  }
+  if (typeof App.showCenterLabel === "function") {
+    return App.showCenterLabel(text, durationMs);
+  }
+}
+function playSoundForPlayerIfPossible(player, sound, opts) {
+  const s = ScriptApp;
+  try {
+    if (player) {
+      if (typeof s.playSoundForPlayer === "function") {
+        return s.playSoundForPlayer(player, sound, opts);
+      }
+      if (typeof s.playSoundToPlayer === "function") {
+        return s.playSoundToPlayer(player, sound, opts);
+      }
+    }
+    if (typeof App.playSound === "function") {
+      return App.playSound(sound);
+    }
+  } catch (e) {}
+}
+function showImagePopupForPlayerIfPossible(player, img, width = 900, height = 700) {
+  const s = ScriptApp;
+  try {
+    if (player) {
+      if (typeof s.showImagePopupForPlayer === "function") {
+        return s.showImagePopupForPlayer(player, img, {
+          width,
+          height
+        });
+      }
+      if (typeof s.showImagePopupToPlayer === "function") {
+        return s.showImagePopupToPlayer(player, img, {
+          width,
+          height
+        });
+      }
+    }
+    if (typeof s.showImagePopup === "function") {
+      return s.showImagePopup(img, {
+        width,
+        height
+      });
+    }
+  } catch (e) {}
+  return undefined;
+}
+function closeImagePopupForPlayerIfPossible(player) {
+  const s = ScriptApp;
+  try {
+    if (player) {
+      if (typeof s.closeImagePopupForPlayer === "function") {
+        return s.closeImagePopupForPlayer(player);
+      }
+      if (typeof s.closeImagePopupToPlayer === "function") {
+        return s.closeImagePopupToPlayer(player);
+      }
+    }
+    if (typeof s.closeImagePopup === "function") {
+      return s.closeImagePopup();
+    }
+  } catch (e) {}
+  return undefined;
+}
+function shakeCameraIfPossible(player, options) {
+  const s = ScriptApp;
+  try {
+    if (player) {
+      if (typeof s.shakeCameraForPlayer === "function") {
+        return s.shakeCameraForPlayer(player, options);
+      }
+    }
+    if (typeof s.shakeCamera === "function") {
+      return s.shakeCamera(options);
+    }
+  } catch (e) {}
+  return undefined;
+}
+function showScreamerCopilot(player, opts) {
+  var _a;
+  return __awaiter(this, void 0, void 0, function* () {
+    const options = Object.assign(Object.assign({}, DEFAULT_OPTIONS), opts || {});
+    if (!player || !player.name) {}
+    if (options.safeMode || player && isPlayerScreamerOptOut(player)) {
+      showCenterLabelToPlayer(player, "😐 (screamer bloqué)", 1500);
+      return;
+    }
+    if (player && player.name) {
+      const now = Date.now();
+      const last = lastScreamAt.get(player.name) || 0;
+      if (now - last < options.cooldownMs) {
+        return;
+      }
+      lastScreamAt.set(player.name, now);
+    }
+    let delay = options.delayMs;
+    if (options.randomizeDelay) {
+      delay = Math.floor(Math.random() * options.delayMs);
+    }
+    showCenterLabelToPlayer(player, "...something is behind you...", Math.max(800, delay));
+    yield new Promise(res => setTimeout(res, delay));
+    try {
+      (_a = options.onSpawnMapObject) === null || _a === void 0 ? void 0 : _a.call(options, player);
+    } catch (e) {}
+    if (!options.safeMode && options.sound) {
+      playSoundForPlayerIfPossible(player, options.sound, {
+        volume: options.volume
+      });
+    }
+    if (options.img) {
+      showImagePopupForPlayerIfPossible(player, options.img, 900, 700);
+      yield new Promise(res => setTimeout(res, options.screamDurationMs));
+      closeImagePopupForPlayerIfPossible(player);
+    } else {
+      showCenterLabelToPlayer(player, "😱 SCREAMER !!!", Math.min(2000, options.screamDurationMs));
+      yield new Promise(res => setTimeout(res, Math.min(2000, options.screamDurationMs)));
+    }
+    if (options.enableShake) {
+      shakeCameraIfPossible(player, {
+        intensity: 6,
+        durationMs: 700
+      });
+    }
+  });
+}
 ;// ./src/salles/salle3.ts
 
 
 function salle3() {
-  toggleDarkness();
   const Voiture = OBJECTS[OBJECT_KEYS.SALLE3.VOITURE1];
   if (Voiture) {
     App.onObjectTouched.Add((sender, x, y, tileID, obj) => {
       if (obj.param1 === Voiture.param1) {
-        removeDarkness();
+        setPlayerScreamerOptOut(sender, true);
+        setPlayerScreamerOptOut(sender, false);
       }
     });
   }
@@ -307,6 +464,7 @@ function StartGame() {
 ;// ./main.ts
 
 
+App.onInit.Add(function () {});
 App.onJoinPlayer.Add(function (player) {
   if (Map.name === MAPS.SALLE1) {
     App.showCenterLabel(`Bienvenue ${player.name} Pour ta quête d'Halloween 💀💀💀`);
@@ -317,6 +475,8 @@ App.onJoinPlayer.Add(function (player) {
 App.onStart.Add(function () {
   StartGame();
 });
+App.onUpdate.Add(function (dt) {});
+App.onLeavePlayer.Add(function (player) {});
 App.onDestroy.Add(function () {
   Map.clearAllObjects();
 });

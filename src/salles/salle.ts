@@ -1,4 +1,3 @@
-import { toggleDarkness } from "../darkness/cameraSombre";
 import { MAPS } from "./MAPS";
 import { salle3 as salle3 } from "./salle3";
 
