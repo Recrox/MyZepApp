@@ -1,7 +1,7 @@
 import {  ScriptPlayer } from "zep-script";
 import { addDarkness, removeDarkness, toggleDarkness } from "../darkness/cameraSombre";
 import { OBJECT_KEYS, OBJECTS } from "../objects";
-import { showScreamer } from "../screamer/showScreamer";
+import { showScreamer, showScreamerShake } from "../screamer/showScreamer";
 import { setPlayerScreamerOptOut, showScreamerCopilot } from "../screamer/copilot/showsceamer-copilot";
 
 export function salle3(): void {
@@ -12,8 +12,9 @@ export function salle3(): void {
     ScriptApp.onObjectTouched.Add((sender : ScriptPlayer, x, y, tileID, obj) => {
       // Compare sur param1 ou key
       if (obj.param1 === Voiture.param1) {
-        // toggleDarkness();
-        showScreamer(sender);
+        toggleDarkness(250);
+        // showScreamer(sender);
+        showScreamerShake(sender);
 
       }
     });

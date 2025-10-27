@@ -9,9 +9,10 @@
         justify-content: center;
         align-items: center;
         height: 100%;
+        flex-direction: column;
       }
 
-      img {
+      img.cover {
         width: 100%;
         height: 100%;
         object-fit: contain;
@@ -28,9 +29,38 @@
           opacity: 1;
         }
       }
+
+      #text {
+        position: absolute;
+        bottom: 20px;
+        font-size: 2em;
+        color: white;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
-    <img src="assets/img/screamer.png" />
-  </body>
+    <div id="content"></div>
+    <div id="text"></div>
+
+    <script>
+      const BLUEMAN = "data:image/png;base64,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";
+
+      window.addEventListener("message", function (e) {
+        let text = e.data.text;
+        let content = document.getElementById("content");
+        if (content) {
+          while (content.hasChildNodes()) {
+            content.removeChild(content.firstChild);
+          }
+          let content_image = document.createElement("img");
+          content_image.setAttribute("src", BLUEMAN);
+          content_image.setAttribute("class", "cover");
+          content.append(content_image);
+        }
+        if (text) {
+          document.getElementById("text").innerText = text;
+        }
+      });
+    </script>
 </html>

@@ -28,12 +28,16 @@ ScriptApp.onJoinPlayer.Add( function (player) {
   }
   // showScreamerCopilot(player);
   // handleDarknessOnStart();
+
+  // ScriptApp.sayToAll(`onJoinPlayer`);
+  StartGame();
 });
 
 // Event that starts first when each player enters [ Enter ]
 ScriptApp.onStart.Add(function () {
   // ScriptApp.sayToAll(`onStart`);
   // ScriptMap.putObject(0, 0, zepLogo, { overlap: true });
+  // ScriptApp.sayToAll(`onStart`);
   StartGame();
 });
 

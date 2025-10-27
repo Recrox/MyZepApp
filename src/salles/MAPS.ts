@@ -25,3 +25,4 @@ export const MAPS = {
   SALLE20: "Salle20",
   
 } as const;
+
