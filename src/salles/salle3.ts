@@ -13,8 +13,8 @@ export function salle3(): void {
       // Compare sur param1 ou key
       if (obj.param1 === Voiture.param1) {
         toggleDarkness(250);
-        // showScreamer(sender);
-        showScreamerShake(sender);
+        showScreamer(sender);
+        // showScreamerShake(sender);
 
       }
     });

@@ -1,12 +1,13 @@
 import {  ScriptPlayer } from "zep-script";
 import { addDarkness, toggleDarkness } from "../darkness/cameraSombre";
 import { OBJECT_KEYS, OBJECTS } from "../objects";
+import { Darkness } from "../darkness/Darkness.1";
 
 const WIDTH = 1024;
 const LENGTH = 1024;
 
 export function HALL_C(): void {
-    addDarkness(300); 
+    addDarkness(Darkness.HARD); 
  
 //    const Voiture = OBJECTS[OBJECT_KEYS.SALLE3.VOITURE1];
 

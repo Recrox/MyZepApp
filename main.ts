@@ -14,7 +14,7 @@ import { showScreamerCopilot } from "./src/screamer/copilot/showsceamer-copilot"
 // The first event called when running the app (before the user enters)
 // Normal and Sidebar apps are called when the map is executed after applying the script
 ScriptApp.onInit.Add(function(){
-  
+  StartGame();
 });
 
 // All players enter the app through this event [ Enter ]
@@ -30,7 +30,7 @@ ScriptApp.onJoinPlayer.Add( function (player) {
   // handleDarknessOnStart();
 
   // ScriptApp.sayToAll(`onJoinPlayer`);
-  StartGame();
+  // StartGame();
 });
 
 // Event that starts first when each player enters [ Enter ]
@@ -38,7 +38,7 @@ ScriptApp.onStart.Add(function () {
   // ScriptApp.sayToAll(`onStart`);
   // ScriptMap.putObject(0, 0, zepLogo, { overlap: true });
   // ScriptApp.sayToAll(`onStart`);
-  StartGame();
+  
 });
 
 // Calls event every 20ms

@@ -38,4 +38,22 @@ export function removeDarkness(): void {
     ScriptApp.sendUpdated();
 }
 
+export function pulseDarkness(): void {
+  ScriptApp.cameraEffect = 1; // 1 = vignette effect
+  let darkness = 0.2; // point de départ (20% sombre)
+  let direction = 1;  // 1 = s'assombrit, -1 = s'éclaircit
 
+  const interval = setInterval(() => {
+    darkness += 0.02 * direction;
+
+    // bornes : entre 0.2 (clair) et 0.6 (sombre)
+    if (darkness >= 0.6) direction = -1;
+    if (darkness <= 0.2) direction = 1;
+
+    ScriptApp.cameraEffectParam1 = darkness;
+    ScriptApp.sendUpdated();
+  }, 100); // toutes les 100 ms
+
+  // Pour arrêter après 5 secondes :
+  setTimeout(() => clearInterval(interval), 5000);
+}
