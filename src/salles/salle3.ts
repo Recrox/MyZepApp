@@ -1,8 +1,7 @@
 import {  ScriptPlayer } from "zep-script";
-import { addDarkness, removeDarkness, toggleDarkness } from "../darkness/cameraSombre";
 import { OBJECT_KEYS, OBJECTS } from "../objects";
-import { showScreamer, showScreamerShake } from "../screamer/showScreamer";
-import { setPlayerScreamerOptOut, showScreamerCopilot } from "../screamer/copilot/showsceamer-copilot";
+import { showScreamer } from "../screamer/showScreamer";
+import { toggleDarkness } from "../darkness/cameraSombre";
 
 export function salle3(): void {
 
@@ -15,7 +14,6 @@ export function salle3(): void {
         toggleDarkness(250);
         showScreamer(sender);
         // showScreamerShake(sender);
-
       }
     });
   }

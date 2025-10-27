@@ -21,11 +21,11 @@ ScriptApp.onInit.Add(function(){
 // Calls whenever a player enters afterward [ Events ]
 ScriptApp.onJoinPlayer.Add( function (player) {
   // ScriptApp.sayToAll(`onJoinPlayer`);
-  if (ScriptMap.name === MAPS.SALLE1) {
-    ScriptApp.showCenterLabel(`Bienvenue ${player.name} Pour ta quête d'Halloween 💀💀💀`);
-  } else {
-    ScriptApp.showCenterLabel(`Tu es dans la salle ${ScriptMap.name}`);
-  }
+  // if (ScriptMap.name === MAPS.SALLE1) {
+  //   ScriptApp.showCenterLabel(`Bienvenue ${player.name} Pour ta quête d'Halloween 💀💀💀`);
+  // } else {
+  //   ScriptApp.showCenterLabel(`Tu es dans la salle ${ScriptMap.name}`);
+  // }
   // showScreamerCopilot(player);
   // handleDarknessOnStart();
 

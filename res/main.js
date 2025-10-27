@@ -1,9 +1,87 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 
+;// ./src/utils.ts
+function getObjectByParam1(value) {
+  const objects = Map.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS);
+  for (const obj of objects) {
+    if (obj.param1 === value) {
+      return obj;
+    }
+  }
+  return null;
+}
+function getObjectsByParam1(value) {
+  const objects = Map.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS);
+  return objects.filter(obj => obj.param1 === value);
+}
+;// ./src/objects-halloween.ts
+
+const OBJECT_KEYS = {
+  A1_POTIONS: {
+    CITROUILLE: "A1_POTIONS_CITROUILLE"
+  }
+};
+const OBJECTS = {
+  [OBJECT_KEYS.A1_POTIONS.CITROUILLE]: getObjectByParam1(OBJECT_KEYS.A1_POTIONS.CITROUILLE)
+};
+;// ./src/screamer/showScreamer.ts
+const SCREAM_SOUND = "assets/sounds/scream1.mp3";
+const DEFAULT_IMAGE = "assets/img/screamer.png";
+const DEFAULT_WIDGET_HTML = "assets/widgets/screamer.html";
+function showScreamer(player, sound = null, htmlPath = null) {
+  const screamSound = sound !== null && sound !== void 0 ? sound : SCREAM_SOUND;
+  const widgetPath = htmlPath !== null && htmlPath !== void 0 ? htmlPath : DEFAULT_WIDGET_HTML;
+  App.playSound(screamSound);
+}
+;// ./src/sounds/ScreamerPaths.ts
+const SCREAMER_SOUNDS = {
+  SCREAM_1: "assets/sounds/screamer/062740_creepy-ghost-scream-81907.mp3",
+  SCREAM_2: "assets/sounds/screamer/breath-stinger1-96164.mp3",
+  SCREAM_3: "assets/sounds/screamer/crazy-distorted-screaming-sound-39350.mp3",
+  SCREAM_4: "assets/sounds/screamer/cringe-scare-47561.mp3",
+  SCREAM_5: "assets/sounds/screamer/distant-demonic-scream-and-debris-346596.mp3",
+  SCREAM_6: "assets/sounds/screamer/ghostly-howl-laa-99322.mp3",
+  SCREAM_7: "assets/sounds/screamer/injury-scream-86808.mp3",
+  SCREAM_8: "assets/sounds/screamer/jump-scare-sound-2-82831.mp3",
+  SCREAM_9: "assets/sounds/screamer/jumpscare-154489.mp3",
+  SCREAM_10: "assets/sounds/screamer/scary-woman-scream-ultra-realistic-379378.mp3",
+  SCREAM_11: "assets/sounds/screamer/scream-90747.mp3"
+};
+function getRandomScreamerKey() {
+  const keys = Object.keys(SCREAMER_SOUNDS);
+  const idx = Math.floor(Math.random() * keys.length);
+  return keys[idx];
+}
+function getRandomScreamerPath() {
+  return SCREAMER_SOUNDS[getRandomScreamerKey()];
+}
 ;// ./src/salles/A1_POTIONS.ts
+
+
+
+const PER_PLAYER_COOLDOWN_MS = 10000;
+let a1PotionsHandlerRegistered = false;
+const playerCooldowns = new Map();
 function A1_POTIONS() {
-  console.log("Afficher : A1 - Potions");
+  const object = OBJECTS[OBJECT_KEYS.A1_POTIONS.CITROUILLE];
+  if (!object) return;
+  if (a1PotionsHandlerRegistered) return;
+  a1PotionsHandlerRegistered = true;
+  App.onObjectTouched.Add((sender, x, y, tileID, obj) => {
+    var _a, _b, _c;
+    if (!obj || obj.param1 !== object.param1) return;
+    const now = Date.now();
+    const playerId = sender && ((_a = sender.id) !== null && _a !== void 0 ? _a : (_b = sender.name) !== null && _b !== void 0 ? _b : "unknown_player");
+    const last = (_c = playerCooldowns.get(playerId)) !== null && _c !== void 0 ? _c : 0;
+    if (now - last < PER_PLAYER_COOLDOWN_MS) {
+      return;
+    }
+    playerCooldowns.set(playerId, now);
+    setTimeout(() => playerCooldowns.delete(playerId), PER_PLAYER_COOLDOWN_MS + 100);
+    const screamerSound = getRandomScreamerPath();
+    showScreamer(sender, screamerSound);
+  });
 }
 ;// ./src/salles/A2_BIBLIOTHEQUE.ts
 function A2_BIBLIOTHEQUE() {
@@ -111,7 +189,6 @@ function C3_LABYRINTHE() {
 
 function C4_ENCLOS() {
   addDarkness(Darkness.HARD);
-  pulseDarkness();
 }
 ;// ./src/salles/C5_CABANE_HAGRID.ts
 function C5_CABANE_HAGRID() {
@@ -307,42 +384,12 @@ function HandleHALLOWEEN_MAPS() {
 function StartGame() {
   HandleHALLOWEEN_MAPS();
 }
-;// ./src/salles/MAPS.ts
-const MAPS = {
-  SALLE1: "Salle1",
-  SALLE2: "Salle2",
-  SALLE3: "Salle3_Forest",
-  SALLE4: "Salle4",
-  SALLE5: "Salle5",
-  SALLE6: "Salle6",
-  SALLE7: "Salle7",
-  SALLE8: "Salle8",
-  SALLE9: "Salle9",
-  SALLE10: "Salle10",
-  SALLE11: "Salle11",
-  SALLE12: "Salle12",
-  SALLE13: "Salle13",
-  SALLE14: "Salle14",
-  SALLE15: "Salle15",
-  SALLE16: "Salle16",
-  SALLE17: "Salle17",
-  SALLE18: "Salle18",
-  SALLE19: "Salle19",
-  SALLE20: "Salle20"
-};
 ;// ./main.ts
-
 
 App.onInit.Add(function () {
   StartGame();
 });
-App.onJoinPlayer.Add(function (player) {
-  if (Map.name === MAPS.SALLE1) {
-    App.showCenterLabel(`Bienvenue ${player.name} Pour ta quête d'Halloween 💀💀💀`);
-  } else {
-    App.showCenterLabel(`Tu es dans la salle ${Map.name}`);
-  }
-});
+App.onJoinPlayer.Add(function (player) {});
 App.onStart.Add(function () {});
 App.onUpdate.Add(function (dt) {});
 App.onLeavePlayer.Add(function (player) {});
