@@ -60,28 +60,16 @@ function getRandomScreamerPath() {
 
 
 
-const PER_PLAYER_COOLDOWN_MS = 10000;
-let a1PotionsHandlerRegistered = false;
-const playerCooldowns = new Map();
 function A1_POTIONS() {
   const object = OBJECTS[OBJECT_KEYS.A1_POTIONS.CITROUILLE];
-  if (!object) return;
-  if (a1PotionsHandlerRegistered) return;
-  a1PotionsHandlerRegistered = true;
-  App.onObjectTouched.Add((sender, x, y, tileID, obj) => {
-    var _a, _b, _c;
-    if (!obj || obj.param1 !== object.param1) return;
-    const now = Date.now();
-    const playerId = sender && ((_a = sender.id) !== null && _a !== void 0 ? _a : (_b = sender.name) !== null && _b !== void 0 ? _b : "unknown_player");
-    const last = (_c = playerCooldowns.get(playerId)) !== null && _c !== void 0 ? _c : 0;
-    if (now - last < PER_PLAYER_COOLDOWN_MS) {
-      return;
-    }
-    playerCooldowns.set(playerId, now);
-    setTimeout(() => playerCooldowns.delete(playerId), PER_PLAYER_COOLDOWN_MS + 100);
-    const screamerSound = getRandomScreamerPath();
-    showScreamer(sender, screamerSound);
-  });
+  if (object) {
+    App.onObjectTouched.Add((sender, x, y, tileID, obj) => {
+      if (obj.param1 === object.param1) {
+        const screamerSound = getRandomScreamerPath();
+        showScreamer(sender, screamerSound);
+      }
+    });
+  }
 }
 ;// ./src/salles/A2_BIBLIOTHEQUE.ts
 function A2_BIBLIOTHEQUE() {
@@ -389,7 +377,9 @@ function StartGame() {
 App.onInit.Add(function () {
   StartGame();
 });
-App.onJoinPlayer.Add(function (player) {});
+App.onJoinPlayer.Add(function (player) {
+  StartGame();
+});
 App.onStart.Add(function () {});
 App.onUpdate.Add(function (dt) {});
 App.onLeavePlayer.Add(function (player) {});

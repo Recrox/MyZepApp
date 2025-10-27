@@ -30,7 +30,7 @@ ScriptApp.onJoinPlayer.Add( function (player) {
   // handleDarknessOnStart();
 
   // ScriptApp.sayToAll(`onJoinPlayer`);
-  // StartGame();
+  StartGame();
 });
 
 // Event that starts first when each player enters [ Enter ]
