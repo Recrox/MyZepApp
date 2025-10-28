@@ -5,15 +5,20 @@ import { getRandomScreamerPath, SCREAMER_SOUNDS } from "../sounds/ScreamerPaths"
 
 export function A1_POTIONS(): void {
    const object = OBJECTS[OBJECT_KEYS.A1_POTIONS.CITROUILLE];
-
+   let isScreamerActive = false;
   if (object) {
-    ScriptApp.onObjectTouched.Add((sender : ScriptPlayer, x, y, tileID, obj) => {
-      // Compare sur param1 ou key
-      if (obj.param1 === object.param1) {
-        // const son:string = "assets/sounds/screamer/062740_creepy-ghost-scream-81907.mp3";
-        // const son:string = SCREAMER_SOUNDS.SCREAM_1;
-        const screamerSound:string = getRandomScreamerPath();
-        showScreamer(sender, screamerSound);
+    ScriptApp.onObjectTouched.Add((sender: ScriptPlayer, x, y, tileID, obj) => {
+      if (obj.param1 === object.param1 && !isScreamerActive) {
+        isScreamerActive = true;
+
+        const screamerPathSound: string = getRandomScreamerPath();
+        showScreamer(sender, screamerPathSound);
+
+        // Quand le screamer se termine (durée connue ou callback)
+        const screamerDuration = 4000; // ms — adapte selon la durée moyenne du son
+        setTimeout(() => {
+          isScreamerActive = false;
+        }, screamerDuration);
       }
     });
   }
