@@ -16,3 +16,4 @@ export function getObjectsByParam1(value: string): MapDataTileObject[] {
     const objects = ScriptMap.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS) as unknown as MapDataTileObject[];
     return objects.filter(obj => obj.param1 === value);
 }
+

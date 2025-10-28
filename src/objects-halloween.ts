@@ -1,17 +1,101 @@
 import type { MapDataTileObject } from "zep-script";
 import { getObjectByParam1 } from "./utils";
 
-// Clés des objets
-export const OBJECT_KEYS = {
-  A1_POTIONS: { CITROUILLE: "A1_POTIONS_CITROUILLE" },
-
+// ===============================
+// 🎃 CLÉS DES OBJETS
+// ===============================
+export const HALLOWEEN_OBJECT_KEYS = {
+  A1_POTIONS: {
+    CITROUILLE: "A1_POTIONS_CITROUILLE",
+    CHAUDRON: "A1_POTIONS_CHAUDRON",
+    LIVRE: "A1_POTIONS_LIVRE",
+  },
+  A2_BIBLIOTHEQUE: {
+    LIVRE_MAUDIT: "A2_BIBLIOTHEQUE_LIVRE_MAUDIT",
+    BOUGIE: "A2_BIBLIOTHEQUE_BOUGIE",
+  },
+  A4_ASTRONOMIE: {
+    TELESCOPE: "A4_ASTRONOMIE_TELESCOPE",
+    ETOILE: "A4_ASTRONOMIE_ETOILE",
+  },
+  A5_METAMORPHOSE: {
+    CENDRE: "A5_METAMORPHOSE_CENDRE",
+    STATUE: "A5_METAMORPHOSE_STATUE",
+  },
+  B1_DORTOIR: {
+    LIT: "B1_DORTOIR_LIT",
+    FANTOME: "B1_DORTOIR_FANTOME",
+  },
+  B2_ELECTRICAL: {
+    GENERATEUR: "B2_ELECTRICAL_GENERATEUR",
+    INTERRUPTEUR: "B2_ELECTRICAL_INTERRUPTEUR",
+  },
+  B3_CUISINE: {
+    COUTEAU: "B3_CUISINE_COUTEAU",
+    CHAUDRON: "B3_CUISINE_CHAUDRON",
+  },
+  B4_BAINS: {
+    MIROIR: "B4_BAINS_MIROIR",
+    SQUELETTE: "B4_BAINS_SQUELETTE",
+  },
+  C1_SERRE: {
+    PLANTE: "C1_SERRE_PLANTE",
+    PLANTE2: "C1_SERRE_PLANTE2",
+    PLANTE3: "C1_SERRE_PLANTE3",
+    PLANTE4: "C1_SERRE_PLANTE4",
+    CITROUILLE: "C1_SERRE_CITROUILLE",
+  },
+  C2_FORET_INTERDITE: {
+    CITROUILLE: "C2_FORET_INTERDITE_CITROUILLE",
+    CITROUILLE2: "C2_FORET_INTERDITE_CITROUILLE2",
+    CITROUILLE3: "C2_FORET_INTERDITE_CITROUILLE3",
+    ARAIGNE1: "C2_FORET_INTERDITE_ARAIGNE1",
+    ARAIGNE2: "C2_FORET_INTERDITE_ARAIGNE2",
+  },
+  C3_LABYRINTHE: {
+    PORTE: "C3_LABYRINTHE_PORTE",
+    STATUE: "C3_LABYRINTHE_STATUE",
+  },
+  C4_ENCLOS: {
+    LICORNE: "C4_ENCLOS_LICORNE",
+    SQUELETTE: "C4_ENCLOS_SQUELETTE",
+  },
+  C5_CABANE_HAGRID: {
+    FEU: "C5_CABANE_HAGRID_FEU",
+    CHIEN: "C5_CABANE_HAGRID_CHIEN",
+  },
+  D1_CRYPTE: {
+    TOMBE: "D1_CRYPTE_TOMBE",
+    CROIX: "D1_CRYPTE_CROIX",
+  },
+  D2_COULOIR: {
+    TABLEAU: "D2_COULOIR_TABLEAU",
+    LUMIERE: "D2_COULOIR_LUMIERE",
+  },
+  D3_CACHOT: {
+    CHAINE: "D3_CACHOT_CHAINE",
+    PRISONNIER: "D3_CACHOT_PRISONNIER",
+  },
+  D4_SACRIFICE: {
+    AUTEL: "D4_SACRIFICE_AUTEL",
+    COUTEAU: "D4_SACRIFICE_COUTEAU",
+  },
 } as const;
 
 
-// Objets résolus directement avec cast pour TS
-export const OBJECTS: Record<string, MapDataTileObject | null> = {
-  // Voitures
-  [OBJECT_KEYS.A1_POTIONS.CITROUILLE]: getObjectByParam1(OBJECT_KEYS.A1_POTIONS.CITROUILLE) as unknown as MapDataTileObject,
+// // Objets résolus directement avec cast pour TS
+// export const OBJECTS: Record<string, MapDataTileObject | null> = {
+//   // Voitures
+//   [OBJECT_KEYS.A1_POTIONS.CITROUILLE]: getObjectByParam1(OBJECT_KEYS.A1_POTIONS.CITROUILLE) as unknown as MapDataTileObject,
+//   [OBJECT_KEYS.A5_METAMORPHOSE.CENDRE]: getObjectByParam1(OBJECT_KEYS.A5_METAMORPHOSE.CENDRE) as unknown as MapDataTileObject,
  
-};
+// };
 
+// ===============================
+// 💀 OBJETS RÉSOLUS
+// ===============================
+export const OBJECTS: Record<string, MapDataTileObject | null> = Object.fromEntries(
+  Object.values(HALLOWEEN_OBJECT_KEYS).flatMap(group =>
+    Object.values(group).map(key => [key, getObjectByParam1(key) as unknown as MapDataTileObject])
+  )
+);

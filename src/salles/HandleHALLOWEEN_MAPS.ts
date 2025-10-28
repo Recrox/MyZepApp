@@ -27,6 +27,7 @@ import { LOBBY } from "./LOBBY";
 import { MENU } from "./MENU";
 
 export function HandleHALLOWEEN_MAPS(): void {
+  ScriptApp.sayToAll(ScriptMap.name + " MAPNAME loaded. ");
   switch (ScriptMap.name) {
     case HALLOWEEN_MAPS.MENU:
       MENU();
