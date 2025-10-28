@@ -94,7 +94,7 @@ export const HALLOWEEN_OBJECT_KEYS = {
 // ===============================
 // 💀 OBJETS RÉSOLUS
 // ===============================
-export const OBJECTS: Record<string, MapDataTileObject | null> = Object.fromEntries(
+export const HALLOWEEN_OBJECT: Record<string, MapDataTileObject | null> = Object.fromEntries(
   Object.values(HALLOWEEN_OBJECT_KEYS).flatMap(group =>
     Object.values(group).map(key => [key, getObjectByParam1(key) as unknown as MapDataTileObject])
   )

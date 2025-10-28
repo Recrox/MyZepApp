@@ -145,7 +145,7 @@ function getRandomScreamerPath() {
 
 
 function TriggerObjectWithSound(object, screamerPathSound = null, screamerDurationMS = 4000) {
-  App.sayToAll(`TriggerObjectWithSound function called.`);
+  App.sayToAll(` OBJECT LOADED NAME: ${object.param1}  `);
   let isScreamerActive = false;
   if (object) {
     App.onObjectTouched.Add((sender, x, y, tileID, obj) => {
@@ -669,10 +669,10 @@ function StartGame() {
 }
 ;// ./main.ts
 
-App.onInit.Add(function () {
+App.onInit.Add(function () {});
+App.onJoinPlayer.Add(function (player) {
   StartGame();
 });
-App.onJoinPlayer.Add(function (player) {});
 App.onStart.Add(function () {});
 App.onUpdate.Add(function (dt) {});
 App.onLeavePlayer.Add(function (player) {});

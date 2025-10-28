@@ -3,7 +3,7 @@ import { showScreamer } from "../screamer/showScreamer";
 import { getRandomScreamerPath } from "../sounds/ScreamerPaths";
 
 export function TriggerObjectWithSound(object: MapDataTileObject | null, screamerPathSound: string | null = null, screamerDurationMS: number = 4000): void {
-  ScriptApp.sayToAll(`TriggerObjectWithSound function called.`);
+  ScriptApp.sayToAll(` OBJECT LOADED NAME: ${object?.param1}  `,);
   let isScreamerActive = false;
   if (object) {
     ScriptApp.onObjectTouched.Add((sender: ScriptPlayer, x, y, tileID, obj) => {
