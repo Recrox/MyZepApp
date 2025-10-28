@@ -1,6 +1,50 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 
+;// ./src/darkness/cameraSombre.ts
+function registerVignetteToggle() {
+  App.addOnKeyDown(81, player => {
+    if (App.cameraEffect === 0) {
+      App.cameraEffect = 1;
+      App.cameraEffectParam1 = 500;
+    } else if (App.cameraEffect === 1) {
+      App.cameraEffect = 0;
+    }
+    App.sendUpdated();
+  });
+}
+function toggleDarkness(cameraEffectParam = 200) {
+  if (!isDark()) {
+    addDarkness(cameraEffectParam);
+  } else {
+    removeDarkness();
+  }
+}
+function isDark() {
+  return App.cameraEffect === 1;
+}
+function addDarkness(cameraEffectParam) {
+  App.cameraEffect = 1;
+  App.cameraEffectParam1 = cameraEffectParam;
+  App.sendUpdated();
+}
+function removeDarkness() {
+  App.cameraEffect = 0;
+  App.sendUpdated();
+}
+function pulseDarkness() {
+  App.cameraEffect = 1;
+  let darkness = 0.2;
+  let direction = 1;
+  const interval = setInterval(() => {
+    darkness += 0.02 * direction;
+    if (darkness >= 0.6) direction = -1;
+    if (darkness <= 0.2) direction = 1;
+    App.cameraEffectParam1 = darkness;
+    App.sendUpdated();
+  }, 100);
+  setTimeout(() => clearInterval(interval), 5000);
+}
 ;// ./src/utils.ts
 function getObjectByParam1(value) {
   const objects = Map.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS);
@@ -18,6 +62,11 @@ function getObjectsByParam1(value) {
 ;// ./src/objects-halloween.ts
 
 const HALLOWEEN_OBJECT_KEYS = {
+  HALL_A: {
+    PORTE_A2: "HALL_A_PORTE_A2",
+    DECOR_CHAUDRON: "HALL_A_DECOR_CHAUDRON",
+    CHAUVE_SOURIS: "HALL_A_CHAUVE_SOURIS"
+  },
   A1_POTIONS: {
     CITROUILLE: "A1_POTIONS_CITROUILLE",
     CHAUDRON: "A1_POTIONS_CHAUDRON",
@@ -32,8 +81,12 @@ const HALLOWEEN_OBJECT_KEYS = {
     ETOILE: "A4_ASTRONOMIE_ETOILE"
   },
   A5_METAMORPHOSE: {
-    CENDRE: "A5_METAMORPHOSE_CENDRE",
-    STATUE: "A5_METAMORPHOSE_STATUE"
+    CENDRE: "A5_METAMORPHOSE_CENDRE"
+  },
+  HALL_B: {
+    GENERATEUR: "HALL_B_GENERATEUR",
+    ECLAIR: "HALL_B_ECLAIR",
+    PANNEAU: "HALL_B_PANNEAU"
   },
   B1_DORTOIR: {
     LIT: "B1_DORTOIR_LIT",
@@ -50,6 +103,11 @@ const HALLOWEEN_OBJECT_KEYS = {
   B4_BAINS: {
     MIROIR: "B4_BAINS_MIROIR",
     SQUELETTE: "B4_BAINS_SQUELETTE"
+  },
+  HALL_C: {
+    PORTAIL: "HALL_C_PORTAIL",
+    TOILE: "HALL_C_TOILE",
+    CITROUILLE: "HALL_C_CITROUILLE"
   },
   C1_SERRE: {
     PLANTE: "C1_SERRE_PLANTE",
@@ -84,17 +142,38 @@ const HALLOWEEN_OBJECT_KEYS = {
     FEU: "C5_CABANE_HAGRID_FEU",
     CHIEN: "C5_CABANE_HAGRID_CHIEN"
   },
+  HALL_D: {
+    CITROUILLE: "HALL_D_CITROUILLE",
+    CITROUILLE2: "HALL_D_CITROUILLE2",
+    TOMBE: "HALL_D_TOMBE",
+    TOMBE2: "HALL_D_TOMBE2",
+    CRANE: "HALL_D_CRANE",
+    CRANE2: "HALL_D_CRANE2",
+    CRANE3: "HALL_D_CRANE3",
+    CRANE4: "HALL_D_CRANE4",
+    CRANE5: "HALL_D_CRANE5"
+  },
   D1_CRYPTE: {
-    TOMBE: "D1_CRYPTE_TOMBE",
-    CROIX: "D1_CRYPTE_CROIX"
+    RAT: "D1_CRYPTE_RAT",
+    RAT2: "D1_CRYPTE_RAT2",
+    TROU: "D1_CRYPTE_TROU",
+    SQUELETTE: "D1_CRYPTE_SQUELETTE"
   },
   D2_COULOIR: {
-    TABLEAU: "D2_COULOIR_TABLEAU",
-    LUMIERE: "D2_COULOIR_LUMIERE"
+    TROU: "D2_COULOIR_TROU",
+    TROU2: "D2_COULOIR_TROU2",
+    TROU3: "D2_COULOIR_TROU3",
+    TROU4: "D2_COULOIR_TROU4",
+    TROU5: "D2_COULOIR_TROU5",
+    TROU6: "D2_COULOIR_TROU6",
+    TROU7: "D2_COULOIR_TROU7",
+    TROU8: "D2_COULOIR_TROU8",
+    TROU9: "D2_COULOIR_TROU9"
   },
   D3_CACHOT: {
-    CHAINE: "D3_CACHOT_CHAINE",
-    PRISONNIER: "D3_CACHOT_PRISONNIER"
+    ARAIGNE: "D3_CACHOT_ARAIGNE",
+    TONNEAU: "D3_CACHOT_TONNEAU",
+    ARMOIRE: "D3_CACHOT_ARMOIRE"
   },
   D4_SACRIFICE: {
     AUTEL: "D4_SACRIFICE_AUTEL",
@@ -152,12 +231,10 @@ function getRandomScreamerPath() {
 
 
 function TriggerObjectWithSound(object, screamerPathSound = null, screamerDurationMS = 4000) {
-  App.sayToAll(` OBJECT LOADED NAME: ${object === null || object === void 0 ? void 0 : object.param1}  `);
   let isScreamerActive = false;
   if (object) {
     App.onObjectTouched.Add((sender, x, y, tileID, obj) => {
       if (obj.param1 === object.param1 && !isScreamerActive) {
-        App.sayToAll(`TriggerObjectWithSound activated by ${sender.name}`);
         isScreamerActive = true;
         const path = screamerPathSound !== null && screamerPathSound !== void 0 ? screamerPathSound : getRandomScreamerPath();
         showScreamer(sender, path);
@@ -189,7 +266,6 @@ function A4_ASTRONOMIE() {
 
 function A5_METAMORPHOSE() {
   const object = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.A5_METAMORPHOSE.CENDRE];
-  App.sayToAll(`A5_METAMORPHOSE function called.`);
   TriggerObjectWithSound(object);
 }
 ;// ./src/salles/B1_DORTOIR.ts
@@ -222,50 +298,6 @@ function C1_SERRE() {
   TriggerObjectWithSound(object3);
   TriggerObjectWithSound(object4);
   TriggerObjectWithSound(object5);
-}
-;// ./src/darkness/cameraSombre.ts
-function registerVignetteToggle() {
-  App.addOnKeyDown(81, player => {
-    if (App.cameraEffect === 0) {
-      App.cameraEffect = 1;
-      App.cameraEffectParam1 = 500;
-    } else if (App.cameraEffect === 1) {
-      App.cameraEffect = 0;
-    }
-    App.sendUpdated();
-  });
-}
-function toggleDarkness(cameraEffectParam = 200) {
-  if (!isDark()) {
-    addDarkness(cameraEffectParam);
-  } else {
-    removeDarkness();
-  }
-}
-function isDark() {
-  return App.cameraEffect === 1;
-}
-function addDarkness(cameraEffectParam) {
-  App.cameraEffect = 1;
-  App.cameraEffectParam1 = cameraEffectParam;
-  App.sendUpdated();
-}
-function removeDarkness() {
-  App.cameraEffect = 0;
-  App.sendUpdated();
-}
-function pulseDarkness() {
-  App.cameraEffect = 1;
-  let darkness = 0.2;
-  let direction = 1;
-  const interval = setInterval(() => {
-    darkness += 0.02 * direction;
-    if (darkness >= 0.6) direction = -1;
-    if (darkness <= 0.2) direction = 1;
-    App.cameraEffectParam1 = darkness;
-    App.sendUpdated();
-  }, 100);
-  setTimeout(() => clearInterval(interval), 5000);
 }
 ;// ./src/darkness/Darkness.1.ts
 const Darkness = {
@@ -310,11 +342,19 @@ function C3_LABYRINTHE() {
   const object3 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C3_LABYRINTHE.CITROUILLE3];
   const object4 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C3_LABYRINTHE.CITROUILLE4];
   const object5 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C3_LABYRINTHE.CITROUILLE5];
+  const object6 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C3_LABYRINTHE.CRANE];
+  const object7 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C3_LABYRINTHE.FANTOME];
+  const object8 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C3_LABYRINTHE.RAT];
+  const object9 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C3_LABYRINTHE.RAT2];
   TriggerObjectWithSound(object);
   TriggerObjectWithSound(object2);
   TriggerObjectWithSound(object3);
   TriggerObjectWithSound(object4);
   TriggerObjectWithSound(object5);
+  TriggerObjectWithSound(object6);
+  TriggerObjectWithSound(object7);
+  TriggerObjectWithSound(object8);
+  TriggerObjectWithSound(object9);
 }
 ;// ./src/salles/C4_ENCLOS.ts
 
@@ -329,18 +369,55 @@ function C5_CABANE_HAGRID() {
 ;// ./src/salles/D1_CRYPTE.ts
 
 
+
+
 function D1_CRYPTE() {
   addDarkness(Darkness.MEDIUM);
+  const object = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D1_CRYPTE.RAT];
+  const object2 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D1_CRYPTE.RAT2];
+  const object3 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D1_CRYPTE.SQUELETTE];
+  const object4 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D1_CRYPTE.TROU];
+  TriggerObjectWithSound(object);
+  TriggerObjectWithSound(object2);
+  TriggerObjectWithSound(object3);
+  TriggerObjectWithSound(object4);
 }
 ;// ./src/salles/D2_COULOIR.ts
 
 
+
+
 function D2_COULOIR() {
   addDarkness(Darkness.EASY);
+  const object1 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU];
+  const object2 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU2];
+  const object3 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU3];
+  const object4 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU4];
+  const object5 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU5];
+  const object6 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU6];
+  const object7 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU7];
+  const object8 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU8];
+  const object9 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D2_COULOIR.TROU9];
+  TriggerObjectWithSound(object1);
+  TriggerObjectWithSound(object2);
+  TriggerObjectWithSound(object3);
+  TriggerObjectWithSound(object4);
+  TriggerObjectWithSound(object5);
+  TriggerObjectWithSound(object6);
+  TriggerObjectWithSound(object7);
+  TriggerObjectWithSound(object8);
+  TriggerObjectWithSound(object9);
 }
 ;// ./src/salles/D3_CACHOT.ts
+
+
 function D3_CACHOT() {
-  console.log("Afficher : D3 - Cachot");
+  const object1 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D3_CACHOT.ARAIGNE];
+  const object2 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D3_CACHOT.ARMOIRE];
+  const object3 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D3_CACHOT.TONNEAU];
+  TriggerObjectWithSound(object1);
+  TriggerObjectWithSound(object2);
+  TriggerObjectWithSound(object3);
 }
 ;// ./src/salles/D4_SACRIFICE.ts
 function D4_SACRIFICE() {
@@ -369,8 +446,28 @@ function HALL_C() {
 ;// ./src/salles/HALL_D.ts
 
 
+
+
 function HALL_D() {
   addDarkness(Darkness.MEDIUM);
+  const object = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.CITROUILLE];
+  const object2 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.CITROUILLE2];
+  const object3 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.CRANE];
+  const object4 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.CRANE2];
+  const object5 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.CRANE3];
+  const object6 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.CRANE4];
+  const object7 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.CRANE5];
+  const object8 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.TOMBE];
+  const object9 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.HALL_D.TOMBE2];
+  TriggerObjectWithSound(object);
+  TriggerObjectWithSound(object2);
+  TriggerObjectWithSound(object3);
+  TriggerObjectWithSound(object4);
+  TriggerObjectWithSound(object5);
+  TriggerObjectWithSound(object6);
+  TriggerObjectWithSound(object7);
+  TriggerObjectWithSound(object8);
+  TriggerObjectWithSound(object9);
 }
 ;// ./src/salles/HALLOWEEN_MAPS.ts
 const HALLOWEEN_MAPS = {
@@ -381,7 +478,7 @@ const HALLOWEEN_MAPS = {
   HALL_A_POUR_A2: "Hall A pour A2",
   A2_BIBLIOTHEQUE: "A2 - Bibliothèque",
   A4_ASTRONOMIE: "A4 - Astronomie",
-  A5_METAMORPHOSE: "A5 - Métamorphose",
+  A5_METAMORPHOSE: "A5 - Metamorphose",
   HALL_B: "HALL B",
   B1_DORTOIR: "B1 - Dortoir",
   B2_ELECTRICAL: "B2 - Electrical",
@@ -514,8 +611,20 @@ function HandleHALLOWEEN_MAPS() {
 }
 ;// ./src/start-game.ts
 
+
 function StartGame() {
   HandleHALLOWEEN_MAPS();
+  CHEATCODE();
+}
+function CHEATCODE() {
+  App.addOnKeyDown(122, player => {
+    toggleDarkness();
+    App.showCenterLabel("🌑 Mode obscur activé/désactivé (F11)", 2000);
+  });
+  App.addOnKeyDown(123, player => {
+    removeDarkness();
+    App.showCenterLabel("💡 Lumière restaurée (F12)", 2000);
+  });
 }
 ;// ./main.ts
 

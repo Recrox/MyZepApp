@@ -8,7 +8,7 @@ export const HALLOWEEN_MAPS = {
   HALL_A_POUR_A2: "Hall A pour A2",
   A2_BIBLIOTHEQUE: "A2 - Bibliothèque",
   A4_ASTRONOMIE: "A4 - Astronomie",
-  A5_METAMORPHOSE: "A5 - Métamorphose",
+  A5_METAMORPHOSE: "A5 - Metamorphose",
 
   HALL_B: "HALL B",
   B1_DORTOIR: "B1 - Dortoir",
