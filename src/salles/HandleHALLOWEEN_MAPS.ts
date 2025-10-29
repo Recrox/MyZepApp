@@ -20,6 +20,7 @@ import { HALL_A } from "./HALL_A";
 import { HALL_A_POUR_A2 } from "./HALL_A_POUR_A2";
 import { HALL_B } from "./HALL_B";
 import { HALL_C } from "./HALL_C";
+import { HALL_C_POUR_C2 } from "./HALL_C_POUR_C2";
 import { HALL_D } from "./HALL_D";
 
 import { HALLOWEEN_MAPS } from "./HALLOWEEN_MAPS";
@@ -83,9 +84,12 @@ export function HandleHALLOWEEN_MAPS(): void {
       B4_BAINS();
       break;
 
-    // --- HALL C ---
     case HALLOWEEN_MAPS.HALL_C:
       HALL_C();
+      break;
+      
+    case HALLOWEEN_MAPS.HALL_C_POUR_C2:
+      HALL_C_POUR_C2();
       break;
 
     case HALLOWEEN_MAPS.C1_SERRE:

@@ -17,6 +17,7 @@ export const HALLOWEEN_MAPS = {
   B4_BAINS: "B4 - Bains",
 
   HALL_C: "HALL C",
+  HALL_C_POUR_C2: "HALL C pour C2",
   C1_SERRE: "C1 - Serre",
   C2_FORET_INTERDITE: "C2 - Forêt Interdite",
   C3_LABYRINTHE: "C3 - Labyrinthe",

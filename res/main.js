@@ -65,6 +65,11 @@ const HALLOWEEN_OBJECT_KEYS = {
     TOILE: "HALL_C_TOILE",
     CITROUILLE: "HALL_C_CITROUILLE"
   },
+  HALL_C_POUR_C2: {
+    PORTAIL: "HALL_C_POUR_C2_PORTAIL",
+    TOILE: "HALL_C_POUR_C2_TOILE",
+    CITROUILLE: "HALL_C_POUR_C2_CITROUILLE"
+  },
   C1_SERRE: {
     PLANTE: "C1_SERRE_PLANTE",
     PLANTE2: "C1_SERRE_PLANTE2",
@@ -190,7 +195,7 @@ function TriggerObjectWithSound(object, screamerPathSound = null, screamerDurati
   let isScreamerActive = false;
   if (object) {
     App.onObjectTouched.Add((sender, x, y, tileID, obj) => {
-      if (obj.param1 === object.param1 && !isScreamerActive) {
+      if (obj && obj.param1 === object.param1 && !isScreamerActive) {
         isScreamerActive = true;
         const path = screamerPathSound !== null && screamerPathSound !== void 0 ? screamerPathSound : getRandomScreamerPath();
         showScreamer(sender, path);
@@ -428,6 +433,14 @@ const HALL_C_LENGTH = 1024;
 function HALL_C() {
   addDarkness(Darkness.HARD);
 }
+;// ./src/salles/HALL_C_POUR_C2.ts
+
+
+const HALL_C_POUR_C2_WIDTH = 1024;
+const HALL_C_POUR_C2_LENGTH = 1024;
+function HALL_C_POUR_C2() {
+  addDarkness(Darkness.HARD);
+}
 ;// ./src/salles/HALL_D.ts
 
 
@@ -470,6 +483,7 @@ const HALLOWEEN_MAPS = {
   B3_CUISINE: "B3 - Cuisine",
   B4_BAINS: "B4 - Bains",
   HALL_C: "HALL C",
+  HALL_C_POUR_C2: "HALL C pour C2",
   C1_SERRE: "C1 - Serre",
   C2_FORET_INTERDITE: "C2 - Forêt Interdite",
   C3_LABYRINTHE: "C3 - Labyrinthe",
@@ -486,6 +500,7 @@ function LOBBY() {}
 ;// ./src/salles/MENU.ts
 function MENU() {}
 ;// ./src/salles/HandleHALLOWEEN_MAPS.ts
+
 
 
 
@@ -555,6 +570,9 @@ function HandleHALLOWEEN_MAPS() {
       break;
     case HALLOWEEN_MAPS.HALL_C:
       HALL_C();
+      break;
+    case HALLOWEEN_MAPS.HALL_C_POUR_C2:
+      HALL_C_POUR_C2();
       break;
     case HALLOWEEN_MAPS.C1_SERRE:
       C1_SERRE();

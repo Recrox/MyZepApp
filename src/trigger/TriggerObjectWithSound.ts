@@ -7,7 +7,7 @@ export function TriggerObjectWithSound(object: MapDataTileObject | null, screame
   let isScreamerActive = false;
   if (object) {
     ScriptApp.onObjectTouched.Add((sender: ScriptPlayer, x, y, tileID, obj) => {
-      if (obj.param1 === object.param1 && !isScreamerActive) {
+      if (obj && obj.param1 === object.param1 && !isScreamerActive) {
         // ScriptApp.sayToAll(`TRIGGER activated by ${sender.name} on object: ${obj.param1}`,);
         isScreamerActive = true;
 
