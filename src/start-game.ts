@@ -21,15 +21,15 @@ export function StartGame() {
 
 // CHEATCODE avec style keycode
 export function CHEATCODE() {
-  // F11 = toggle darkness
-  ScriptApp.addOnKeyDown(122, (player) => { // 122 = F11
-    toggleDarkness();
-    ScriptApp.showCenterLabel("🌑 Mode obscur activé/désactivé (F11)", 2000);
-  });
+  // // F11 = toggle darkness
+  // ScriptApp.addOnKeyDown(122, (player) => { // 122 = F11
+  //   toggleDarkness();
+  //   ScriptApp.showCenterLabel("🌑 Mode obscur activé/désactivé (F11)", 2000);
+  // });
 
-  // F12 = remove darkness
-  ScriptApp.addOnKeyDown(123, (player) => { // 123 = F12
-    removeDarkness();
-    ScriptApp.showCenterLabel("💡 Lumière restaurée (F12)", 2000);
-  });
+  // // F12 = remove darkness
+  // ScriptApp.addOnKeyDown(123, (player) => { // 123 = F12
+  //   removeDarkness();
+  //   ScriptApp.showCenterLabel("💡 Lumière restaurée (F12)", 2000);
+  // });
 }

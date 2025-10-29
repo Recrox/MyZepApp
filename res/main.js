@@ -1,50 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 
-;// ./src/darkness/cameraSombre.ts
-function registerVignetteToggle() {
-  App.addOnKeyDown(81, player => {
-    if (App.cameraEffect === 0) {
-      App.cameraEffect = 1;
-      App.cameraEffectParam1 = 500;
-    } else if (App.cameraEffect === 1) {
-      App.cameraEffect = 0;
-    }
-    App.sendUpdated();
-  });
-}
-function toggleDarkness(cameraEffectParam = 200) {
-  if (!isDark()) {
-    addDarkness(cameraEffectParam);
-  } else {
-    removeDarkness();
-  }
-}
-function isDark() {
-  return App.cameraEffect === 1;
-}
-function addDarkness(cameraEffectParam) {
-  App.cameraEffect = 1;
-  App.cameraEffectParam1 = cameraEffectParam;
-  App.sendUpdated();
-}
-function removeDarkness() {
-  App.cameraEffect = 0;
-  App.sendUpdated();
-}
-function pulseDarkness() {
-  App.cameraEffect = 1;
-  let darkness = 0.2;
-  let direction = 1;
-  const interval = setInterval(() => {
-    darkness += 0.02 * direction;
-    if (darkness >= 0.6) direction = -1;
-    if (darkness <= 0.2) direction = 1;
-    App.cameraEffectParam1 = darkness;
-    App.sendUpdated();
-  }, 100);
-  setTimeout(() => clearInterval(interval), 5000);
-}
 ;// ./src/utils.ts
 function getObjectByParam1(value) {
   const objects = Map.getObjectsByType(ObjectEffectType.INTERACTION_WITH_ZEPSCRIPTS);
@@ -176,8 +132,8 @@ const HALLOWEEN_OBJECT_KEYS = {
     ARMOIRE: "D3_CACHOT_ARMOIRE"
   },
   D4_SACRIFICE: {
-    AUTEL: "D4_SACRIFICE_AUTEL",
-    COUTEAU: "D4_SACRIFICE_COUTEAU"
+    BAINS: "D4_SACRIFICE_BAINS",
+    ANTRE: "D4_SACRIFICE_ANTRE"
   }
 };
 const HALLOWEEN_OBJECT = Object.fromEntries(Object.values(HALLOWEEN_OBJECT_KEYS).flatMap(group => Object.values(group).map(key => [key, getObjectByParam1(key)])));
@@ -254,13 +210,9 @@ function A1_POTIONS() {
   TriggerObjectWithSound(object);
 }
 ;// ./src/salles/A2_BIBLIOTHEQUE.ts
-function A2_BIBLIOTHEQUE() {
-  console.log("Afficher : A2 - Bibliothèque");
-}
+function A2_BIBLIOTHEQUE() {}
 ;// ./src/salles/A4_ASTRONOMIE.ts
-function A4_ASTRONOMIE() {
-  console.log("Afficher : A4 - Astronomie");
-}
+function A4_ASTRONOMIE() {}
 ;// ./src/salles/A5_METAMORPHOSE.ts
 
 
@@ -269,21 +221,13 @@ function A5_METAMORPHOSE() {
   TriggerObjectWithSound(object);
 }
 ;// ./src/salles/B1_DORTOIR.ts
-function B1_DORTOIR() {
-  console.log("Afficher : B1 - Dortoir");
-}
+function B1_DORTOIR() {}
 ;// ./src/salles/B2_ELECTRICAL.ts
-function B2_ELECTRICAL() {
-  console.log("Afficher : B2 - Electrical");
-}
+function B2_ELECTRICAL() {}
 ;// ./src/salles/B3_CUISINE.ts
-function B3_CUISINE() {
-  console.log("Afficher : B3 - Cuisine");
-}
+function B3_CUISINE() {}
 ;// ./src/salles/B4_BAINS.ts
-function B4_BAINS() {
-  console.log("Afficher : B4 - Bains");
-}
+function B4_BAINS() {}
 ;// ./src/salles/C1_SERRE.ts
 
 
@@ -298,6 +242,50 @@ function C1_SERRE() {
   TriggerObjectWithSound(object3);
   TriggerObjectWithSound(object4);
   TriggerObjectWithSound(object5);
+}
+;// ./src/darkness/cameraSombre.ts
+function registerVignetteToggle() {
+  App.addOnKeyDown(81, player => {
+    if (App.cameraEffect === 0) {
+      App.cameraEffect = 1;
+      App.cameraEffectParam1 = 500;
+    } else if (App.cameraEffect === 1) {
+      App.cameraEffect = 0;
+    }
+    App.sendUpdated();
+  });
+}
+function toggleDarkness(cameraEffectParam = 200) {
+  if (!isDark()) {
+    addDarkness(cameraEffectParam);
+  } else {
+    removeDarkness();
+  }
+}
+function isDark() {
+  return App.cameraEffect === 1;
+}
+function addDarkness(cameraEffectParam) {
+  App.cameraEffect = 1;
+  App.cameraEffectParam1 = cameraEffectParam;
+  App.sendUpdated();
+}
+function removeDarkness() {
+  App.cameraEffect = 0;
+  App.sendUpdated();
+}
+function pulseDarkness() {
+  App.cameraEffect = 1;
+  let darkness = 0.2;
+  let direction = 1;
+  const interval = setInterval(() => {
+    darkness += 0.02 * direction;
+    if (darkness >= 0.6) direction = -1;
+    if (darkness <= 0.2) direction = 1;
+    App.cameraEffectParam1 = darkness;
+    App.sendUpdated();
+  }, 100);
+  setTimeout(() => clearInterval(interval), 5000);
 }
 ;// ./src/darkness/Darkness.1.ts
 const Darkness = {
@@ -363,9 +351,7 @@ function C4_ENCLOS() {
   addDarkness(Darkness.HARD);
 }
 ;// ./src/salles/C5_CABANE_HAGRID.ts
-function C5_CABANE_HAGRID() {
-  console.log("Afficher : C5 - Cabane d'Hagrid");
-}
+function C5_CABANE_HAGRID() {}
 ;// ./src/salles/D1_CRYPTE.ts
 
 
@@ -420,21 +406,20 @@ function D3_CACHOT() {
   TriggerObjectWithSound(object3);
 }
 ;// ./src/salles/D4_SACRIFICE.ts
+
+
 function D4_SACRIFICE() {
-  console.log("Afficher : D4 - Sacrifice");
+  const object1 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D4_SACRIFICE.BAINS];
+  const object2 = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.D4_SACRIFICE.ANTRE];
+  TriggerObjectWithSound(object1);
+  TriggerObjectWithSound(object2);
 }
 ;// ./src/salles/HALL_A.ts
-function HALL_A() {
-  console.log("Afficher : HALL A");
-}
+function HALL_A() {}
 ;// ./src/salles/HALL_A_POUR_A2.ts
-function HALL_A_POUR_A2() {
-  console.log("Afficher : Hall A pour A2");
-}
+function HALL_A_POUR_A2() {}
 ;// ./src/salles/HALL_B.ts
-function HALL_B() {
-  console.log("Afficher : HALL B");
-}
+function HALL_B() {}
 ;// ./src/salles/HALL_C.ts
 
 
@@ -497,13 +482,9 @@ const HALLOWEEN_MAPS = {
   D4_SACRIFICE: "D4 - Sacrifice"
 };
 ;// ./src/salles/LOBBY.ts
-function LOBBY() {
-  console.log("Afficher : Lobby");
-}
+function LOBBY() {}
 ;// ./src/salles/MENU.ts
-function MENU() {
-  console.log("Afficher : Menu");
-}
+function MENU() {}
 ;// ./src/salles/HandleHALLOWEEN_MAPS.ts
 
 
@@ -611,21 +592,11 @@ function HandleHALLOWEEN_MAPS() {
 }
 ;// ./src/start-game.ts
 
-
 function StartGame() {
   HandleHALLOWEEN_MAPS();
   CHEATCODE();
 }
-function CHEATCODE() {
-  App.addOnKeyDown(122, player => {
-    toggleDarkness();
-    App.showCenterLabel("🌑 Mode obscur activé/désactivé (F11)", 2000);
-  });
-  App.addOnKeyDown(123, player => {
-    removeDarkness();
-    App.showCenterLabel("💡 Lumière restaurée (F12)", 2000);
-  });
-}
+function CHEATCODE() {}
 ;// ./main.ts
 
 App.onInit.Add(function () {

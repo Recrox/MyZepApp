@@ -4,9 +4,6 @@ import { getObjectByParam1 } from "./utils";
 // ===============================
 // 🎃 CLÉS DES OBJETS
 // ===============================
-// ===============================
-// 🎃 CLÉS DES OBJETS
-// ===============================
 export const HALLOWEEN_OBJECT_KEYS = {
   // 🧪 HALL A
   HALL_A: {
@@ -129,8 +126,8 @@ export const HALLOWEEN_OBJECT_KEYS = {
     ARMOIRE: "D3_CACHOT_ARMOIRE",
   },
   D4_SACRIFICE: {
-    AUTEL: "D4_SACRIFICE_AUTEL",
-    COUTEAU: "D4_SACRIFICE_COUTEAU",
+    BAINS: "D4_SACRIFICE_BAINS",
+    ANTRE: "D4_SACRIFICE_ANTRE",
   },
 } as const;
 
