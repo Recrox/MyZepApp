@@ -1,11 +1,7 @@
 import { addDarkness } from "../darkness/cameraSombre";
-import { OBJECTS } from "../objects";
 import { Darkness } from "../darkness/Darkness.1";
 import { HALLOWEEN_OBJECT, HALLOWEEN_OBJECT_KEYS } from "../objects-halloween";
 import { TriggerObjectWithSound } from "../trigger/TriggerObjectWithSound";
-
-const WIDTH = 1024;
-const LENGTH = 1024;
 
 export function C2_Forêt_Interdite(): void {
     addDarkness(Darkness.MEDIUM); 

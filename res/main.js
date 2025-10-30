@@ -308,8 +308,6 @@ const Darkness = {
 
 
 
-const WIDTH = 1024;
-const LENGTH = 1024;
 function C2_Forêt_Interdite() {
   addDarkness(Darkness.MEDIUM);
   const object = HALLOWEEN_OBJECT[HALLOWEEN_OBJECT_KEYS.C2_FORET_INTERDITE.CITROUILLE];
@@ -428,17 +426,25 @@ function HALL_B() {}
 ;// ./src/salles/HALL_C.ts
 
 
-const HALL_C_WIDTH = 1024;
-const HALL_C_LENGTH = 1024;
 function HALL_C() {
   addDarkness(Darkness.HARD);
 }
 ;// ./src/salles/HALL_C_POUR_C2.ts
 
 
-const HALL_C_POUR_C2_WIDTH = 1024;
-const HALL_C_POUR_C2_LENGTH = 1024;
 function HALL_C_POUR_C2() {
+  addDarkness(Darkness.HARD);
+}
+;// ./src/salles/HALL_C_POUR_C5.ts
+
+
+function HALL_C_POUR_C5() {
+  addDarkness(Darkness.HARD);
+}
+;// ./src/salles/HALL_C_POUR_HALL_D.ts
+
+
+function HALL_C_POUR_HALL_D() {
   addDarkness(Darkness.HARD);
 }
 ;// ./src/salles/HALL_D.ts
@@ -484,6 +490,8 @@ const HALLOWEEN_MAPS = {
   B4_BAINS: "B4 - Bains",
   HALL_C: "HALL C",
   HALL_C_POUR_C2: "HALL C pour C2",
+  HALL_C_POUR_C5: "HALL C pour C5",
+  HALL_C_POUR_HALL_D: "HALL C pour HALL D",
   C1_SERRE: "C1 - Serre",
   C2_FORET_INTERDITE: "C2 - Forêt Interdite",
   C3_LABYRINTHE: "C3 - Labyrinthe",
@@ -526,8 +534,9 @@ function MENU() {}
 
 
 
+
+
 function HandleHALLOWEEN_MAPS() {
-  App.sayToAll(Map.name + " MAPNAME loaded. ");
   switch (Map.name) {
     case HALLOWEEN_MAPS.MENU:
       MENU();
@@ -573,6 +582,12 @@ function HandleHALLOWEEN_MAPS() {
       break;
     case HALLOWEEN_MAPS.HALL_C_POUR_C2:
       HALL_C_POUR_C2();
+      break;
+    case HALLOWEEN_MAPS.HALL_C_POUR_C5:
+      HALL_C_POUR_C5();
+      break;
+    case HALLOWEEN_MAPS.HALL_C_POUR_HALL_D:
+      HALL_C_POUR_HALL_D();
       break;
     case HALLOWEEN_MAPS.C1_SERRE:
       C1_SERRE();

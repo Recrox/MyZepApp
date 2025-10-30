@@ -1,10 +1,5 @@
-import {  ScriptPlayer } from "zep-script";
-import { addDarkness, toggleDarkness } from "../darkness/cameraSombre";
-import { OBJECT_KEYS, OBJECTS } from "../objects";
+import { addDarkness } from "../darkness/cameraSombre";
 import { Darkness } from "../darkness/Darkness.1";
-
-const WIDTH = 1024;
-const LENGTH = 1024;
 
 export function HALL_C(): void {
     addDarkness(Darkness.HARD); 

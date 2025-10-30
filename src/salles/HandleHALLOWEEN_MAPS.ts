@@ -21,14 +21,14 @@ import { HALL_A_POUR_A2 } from "./HALL_A_POUR_A2";
 import { HALL_B } from "./HALL_B";
 import { HALL_C } from "./HALL_C";
 import { HALL_C_POUR_C2 } from "./HALL_C_POUR_C2";
+import { HALL_C_POUR_C5 } from "./HALL_C_POUR_C5";
+import { HALL_C_POUR_HALL_D } from "./HALL_C_POUR_HALL_D";
 import { HALL_D } from "./HALL_D";
-
 import { HALLOWEEN_MAPS } from "./HALLOWEEN_MAPS";
 import { LOBBY } from "./LOBBY";
 import { MENU } from "./MENU";
 
 export function HandleHALLOWEEN_MAPS(): void {
-  ScriptApp.sayToAll(ScriptMap.name + " MAPNAME loaded. ");
   switch (ScriptMap.name) {
     case HALLOWEEN_MAPS.MENU:
       MENU();
@@ -91,6 +91,14 @@ export function HandleHALLOWEEN_MAPS(): void {
     case HALLOWEEN_MAPS.HALL_C_POUR_C2:
       HALL_C_POUR_C2();
       break;
+
+    case HALLOWEEN_MAPS.HALL_C_POUR_C5:
+      HALL_C_POUR_C5();
+    break;
+
+    case HALLOWEEN_MAPS.HALL_C_POUR_HALL_D:
+      HALL_C_POUR_HALL_D();
+    break;
 
     case HALLOWEEN_MAPS.C1_SERRE:
       C1_SERRE();
